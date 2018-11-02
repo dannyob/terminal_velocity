@@ -46,6 +46,9 @@ the default default will be used"""
     parser = argparse.ArgumentParser(description=description, epilog=epilog,
             parents=[parser],
             formatter_class=argparse.RawDescriptionHelpFormatter)
+
+    parser.add_argument("-t", "--text", dest="initial_text", action="store", default="", help='initial text')
+
     parser.add_argument("-e", "--editor", dest="editor", action="store",
         default=defaults.get("editor", os.getenv("EDITOR", "vim")),
         help="the text editor to use (default: %(default)s)")
@@ -118,7 +121,7 @@ the default default will be used"""
     logger.debug(args)
 
     try:
-        urwid_ui.launch(notes_dir=args.notes_dir, editor=args.editor,
+        urwid_ui.launch(initial_text=args.initial_text, notes_dir=args.notes_dir, editor=args.editor,
                 extension=args.extension, extensions=args.extensions,
                 exclude=args.exclude)
     except KeyboardInterrupt:

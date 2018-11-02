@@ -238,7 +238,7 @@ class NoteFilterListBox(urwid.ListBox):
 class MainFrame(urwid.Frame):
     """The topmost urwid widget."""
 
-    def __init__(self, notes_dir, editor, extension, extensions, exclude=None):
+    def __init__(self, initial_text, notes_dir, editor, extension, extensions, exclude=None):
 
         self.editor = editor
         self.notebook = notebook.PlainTextNoteBook(notes_dir, extension,
@@ -265,6 +265,7 @@ class MainFrame(urwid.Frame):
                 focus_part="body")
 
         # Add all the notes to the listbox.
+        self.search_box.insert_text(initial_text)
         self.filter(self.search_box.edit_text)
 
     def get_selected_note(self):
@@ -434,12 +435,12 @@ class MainFrame(urwid.Frame):
         self.selected_note = note
 
 
-def launch(notes_dir, editor, extension, extensions, exclude=None):
+def launch(initial_text, notes_dir, editor, extension, extensions, exclude=None):
     """Launch the user interface."""
 
     urwid.set_encoding(sys.getfilesystemencoding())
 
-    frame = MainFrame(notes_dir, editor, extension, extensions, exclude=exclude)
+    frame = MainFrame(initial_text, notes_dir, editor, extension, extensions, exclude=exclude)
     loop = urwid.MainLoop(frame, palette)
     frame.loop = loop
     loop.run()
